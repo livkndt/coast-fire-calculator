@@ -31,6 +31,6 @@ export interface CoastFireResult {
   currentTotal: number              // Current SIPP + other investments
   hasCoasted: boolean
   amountToCoast: number             // 0 if already coasted
-  projectedCoastYear: number | null // Calendar year; null if already coasted
-  projectedCoastAge: number | null  // User age; null if already coasted
+  projectedCoastYear: number | null // Calendar year; null if not reached within projection
+  projectedCoastAge: number | null  // User age; null if not reached within projection
 }
