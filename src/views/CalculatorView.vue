@@ -264,12 +264,19 @@
       </aside>
 
     </div>
+
+    <!-- ── Chart (full width below form + results) ──────────────────── -->
+    <section class="calculator__chart">
+      <ProjectionChart />
+    </section>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { useCalculatorStore } from '@/stores/calculator'
+import ProjectionChart from '@/components/ProjectionChart.vue'
 
 const store = useCalculatorStore()
 const { inputs, results } = storeToRefs(store)
@@ -512,4 +519,10 @@ function fmt(value: number): string {
 
 .results-disclaimer a { color: #9ca3af; }
 .results-disclaimer a:hover { color: #4f46e5; }
+
+/* ── Chart section ─────────────────────────────────────────────────── */
+
+.calculator__chart {
+  margin-top: 1.5rem;
+}
 </style>
