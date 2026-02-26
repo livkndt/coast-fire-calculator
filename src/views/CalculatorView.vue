@@ -8,7 +8,10 @@
         <section class="form-section">
           <h2 class="form-section__title">About you</h2>
           <div class="form-row">
-            <label class="form-label" for="currentAge">Current age</label>
+            <label class="form-label" for="currentAge">
+              Current age
+              <InfoTooltip text="Your age today. Used to calculate how many years your investments have to grow before retirement." />
+            </label>
             <input
               id="currentAge"
               v-model.number="inputs.currentAge"
@@ -17,7 +20,10 @@
             />
           </div>
           <div class="form-row">
-            <label class="form-label" for="retirementAge">Target retirement age</label>
+            <label class="form-label" for="retirementAge">
+              Target retirement age
+              <InfoTooltip text="The age at which you plan to stop relying on employment income. Drag the slider below the chart to explore how this changes your Coast number." />
+            </label>
             <input
               id="retirementAge"
               v-model.number="inputs.retirementAge"
@@ -33,6 +39,7 @@
             <label class="form-label" for="currentSipp">
               Private pension / SIPP
               <span class="form-label__hint">Locked until age 57</span>
+              <InfoTooltip text="Money held in a Self-Invested Personal Pension or other defined-contribution pension. Currently locked until age 57 (rising from 55 in April 2028). Include the current transfer value." />
             </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
@@ -48,6 +55,7 @@
             <label class="form-label" for="currentOther">
               Other investments
               <span class="form-label__hint">ISA, GIA, savings</span>
+              <InfoTooltip text="ISAs, General Investment Accounts (GIAs), cash savings, or any other accessible pot. Unlike a SIPP, these can be accessed at any age — important if you plan to retire before 57." />
             </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
@@ -64,7 +72,10 @@
         <section class="form-section">
           <h2 class="form-section__title">Monthly contributions</h2>
           <div class="form-row">
-            <label class="form-label" for="monthlySipp">Private pension / SIPP</label>
+            <label class="form-label" for="monthlySipp">
+              Private pension / SIPP
+              <InfoTooltip text="How much you contribute to your pension each month. Include any employer match — it all counts towards your Coast number." />
+            </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
               <input
@@ -76,7 +87,10 @@
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label" for="monthlyOther">Other investments</label>
+            <label class="form-label" for="monthlyOther">
+              Other investments
+              <InfoTooltip text="How much you invest into ISAs, savings, or GIAs each month. These contributions are tracked separately from your pension." />
+            </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
               <input
@@ -95,6 +109,7 @@
             <label class="form-label" for="expenses">
               Annual expenses in retirement
               <span class="form-label__hint">Today's money</span>
+              <InfoTooltip text="How much you expect to spend each year once retired, in today's money. You don't need to account for inflation — the calculator works in real terms. A common starting point is 50–70% of current income." />
             </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
@@ -111,7 +126,10 @@
         <section class="form-section">
           <h2 class="form-section__title">State pension</h2>
           <div class="form-row form-row--toggle">
-            <label class="form-label" for="includeSP">Include State Pension?</label>
+            <label class="form-label" for="includeSP">
+              Include State Pension?
+              <InfoTooltip text="If enabled, the UK State Pension reduces the pot your investments need to fund. The calculator uses a two-tranche approach to account for the gap between your retirement age and State Pension Age." />
+            </label>
             <label class="toggle">
               <input
                 id="includeSP"
@@ -124,7 +142,10 @@
           </div>
           <template v-if="inputs.includeStatePension">
             <div class="form-row">
-              <label class="form-label" for="spAge">State Pension age</label>
+              <label class="form-label" for="spAge">
+                State Pension age
+                <InfoTooltip text="The age at which UK State Pension payments begin. Currently 67 for people born after 5 April 1960. The government may raise this further — check gov.uk for the latest." />
+              </label>
               <input
                 id="spAge"
                 v-model.number="inputs.statePensionAge"
@@ -136,6 +157,7 @@
               <label class="form-label" for="spWeekly">
                 Weekly State Pension amount
                 <span class="form-label__hint">Full new SP 2025/26: £221.20</span>
+                <InfoTooltip text="Your estimated weekly State Pension. The full new State Pension is £221.20/week (2025/26). You may receive less if you have gaps in your National Insurance record. Check your forecast at gov.uk/check-state-pension." />
               </label>
               <div class="form-input-prefix">
                 <span class="form-input-prefix__symbol">£</span>
@@ -159,6 +181,7 @@
               <label class="form-label" for="returnRate">
                 Real annual return rate
                 <span class="form-label__hint">After inflation, default 5%</span>
+                <InfoTooltip text="Expected investment return after inflation. Historically a diversified global equity portfolio has returned around 5–7% real per year over the long run. 5% is a cautious, commonly-used assumption." />
               </label>
               <div class="form-input-suffix">
                 <input
@@ -174,6 +197,7 @@
               <label class="form-label" for="swr">
                 Safe withdrawal rate
                 <span class="form-label__hint">Default 4%</span>
+                <InfoTooltip text="The percentage of your pot you withdraw each year in retirement. The '4% rule' (Trinity Study) suggests this rate has historically sustained portfolios for 30+ years. For longer retirements, 3–3.5% is more conservative." />
               </label>
               <div class="form-input-suffix">
                 <input
@@ -277,6 +301,7 @@
 import { storeToRefs } from 'pinia'
 import { useCalculatorStore } from '@/stores/calculator'
 import ProjectionChart from '@/components/ProjectionChart.vue'
+import InfoTooltip from '@/components/InfoTooltip.vue'
 
 const store = useCalculatorStore()
 const { inputs, results } = storeToRefs(store)
