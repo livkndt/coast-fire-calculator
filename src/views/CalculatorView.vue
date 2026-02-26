@@ -294,6 +294,30 @@
       <ProjectionChart />
     </section>
 
+    <!-- ── Export ────────────────────────────────────────────────────── -->
+    <section class="calculator__export">
+      <div class="export-bar">
+        <div class="export-bar__info">
+          <span class="export-bar__label">Export your projection</span>
+          <span class="export-bar__sub">
+            {{ rows.length }} rows · ages {{ inputs.currentAge }}–{{ inputs.retirementAge }}
+          </span>
+        </div>
+        <div class="export-bar__actions">
+          <button class="btn btn--outline" @click="handleDownload">
+            ↓ Download CSV
+          </button>
+          <button
+            class="btn btn--outline"
+            :class="{ 'btn--success': copied }"
+            @click="handleCopy"
+          >
+            {{ copied ? '✓ Copied!' : '⎘ Copy summary' }}
+          </button>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
@@ -302,9 +326,19 @@ import { storeToRefs } from 'pinia'
 import { useCalculatorStore } from '@/stores/calculator'
 import ProjectionChart from '@/components/ProjectionChart.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import { useExport } from '@/composables/useExport'
 
 const store = useCalculatorStore()
-const { inputs, results } = storeToRefs(store)
+const { inputs, results, rows } = storeToRefs(store)
+const { downloadCsv, copyToClipboard, copied } = useExport()
+
+function handleDownload() {
+  downloadCsv(rows.value)
+}
+
+async function handleCopy() {
+  await copyToClipboard(results.value, inputs.value)
+}
 
 function fmt(value: number): string {
   return new Intl.NumberFormat('en-GB', {
@@ -549,5 +583,76 @@ function fmt(value: number): string {
 
 .calculator__chart {
   margin-top: 1.5rem;
+}
+
+/* ── Export bar ────────────────────────────────────────────────────── */
+
+.calculator__export {
+  margin-top: 1rem;
+}
+
+.export-bar {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.export-bar__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.export-bar__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.export-bar__sub {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.export-bar__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+}
+
+.btn--outline {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.btn--outline:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.btn--success {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
 }
 </style>
