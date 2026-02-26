@@ -23,6 +23,9 @@ export default (_env: unknown, argv: { mode?: string }): Configuration => {
   const isProd = argv.mode === 'production'
 
   return {
+    // 'cheap-module-source-map' gives useful source maps without using eval,
+    // keeping the dev CSP clean. Production ships no source maps.
+    devtool: isProd ? false : 'cheap-module-source-map',
     entry: './src/main.ts',
     output: {
       path: path.resolve(__dirname, 'dist'),
