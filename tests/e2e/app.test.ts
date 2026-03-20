@@ -91,7 +91,7 @@ test.describe('No JS errors or CSP violations', () => {
 test.describe('Calculator happy path', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.waitForSelector('.results-card')
+    await page.waitForSelector('.results-item__label')
   })
 
   test('results card shows all expected labels', async ({ page }) => {
