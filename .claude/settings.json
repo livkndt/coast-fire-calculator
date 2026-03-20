@@ -1,0 +1,60 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm test)",
+      "Bash(npm audit)",
+      "Bash(npm run build)",
+      "Bash(npm run test:e2e)",
+      "Bash(npm run lint)",
+      "Bash(npm run type-check)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)"
+    ],
+    "deny": [
+      "Bash(cat .env*)",
+      "Bash(cat */.env*)",
+      "Bash(echo * .env*)",
+      "Bash(printenv*)",
+      "Bash(env)",
+      "Bash(set)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(~/.env)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.kube/**)",
+      "Read(~/.gnupg/**)",
+      "Read(~/.netrc)",
+      "Read(~/.git-credentials)",
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(chmod 777 *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(git branch -D *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(npm publish*)",
+      "Bash(twine upload*)",
+      "Bash(pip upload*)",
+      "Bash(docker push*)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  },
+  "_comments": {
+    "sandbox": "Use Claude's sandbox functionality.",
+    "sensitive_file_read": "Prevent Claude from reading credentials, keys, or secrets from the filesystem — both project-local and home directory.",
+    "env_dump": "Prevent commands that would print all environment variables to stdout, which may include secrets injected at runtime.",
+    "destructive_filesystem": "Block irreversible filesystem operations. rm -rf and sudo can destroy the project or the host system.",
+    "git_safety": "Block hard-to-reverse git operations: force-push rewrites remote history, reset --hard discards uncommitted work, clean -f deletes untracked files, branch -D removes branches without a merge check.",
+    "network_exfiltration": "Block curl and wget in agentic context — they can exfiltrate data or pull and pipe remote scripts (curl … | bash). Package installs go through pip/npm directly.",
+    "accidental_publish": "Prevent accidental release of packages or images to public registries. These actions are one-way and require explicit human intent."
+  }
+}
