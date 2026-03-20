@@ -1,14 +1,22 @@
 <template>
   <div class="chart-panel">
-    <h2 class="chart-panel__title">Portfolio projection</h2>
+    <h2 class="chart-panel__title">
+      Portfolio projection
+    </h2>
 
     <div class="chart-canvas">
-      <Line :data="chartData" :options="chartOptions" />
+      <Line
+        :data="chartData"
+        :options="chartOptions"
+      />
     </div>
 
     <!-- Sensitivity slider -->
     <div class="chart-slider">
-      <label class="chart-slider__label" for="retirementSlider">
+      <label
+        class="chart-slider__label"
+        for="retirementSlider"
+      >
         Drag to change retirement age
       </label>
       <div class="chart-slider__track">
@@ -21,7 +29,7 @@
           max="85"
           step="1"
           class="chart-slider__input"
-        />
+        >
         <span class="chart-slider__bound">85</span>
       </div>
       <div class="chart-slider__value">
@@ -33,11 +41,11 @@
     <!-- Legend: milestone key -->
     <div class="chart-legend">
       <span class="chart-legend__item chart-legend__item--coast">
-        <span class="chart-legend__dot"></span>
+        <span class="chart-legend__dot" />
         Coast FIRE reached
       </span>
       <span class="chart-legend__item chart-legend__item--retire">
-        <span class="chart-legend__dot"></span>
+        <span class="chart-legend__dot" />
         Retirement
       </span>
     </div>

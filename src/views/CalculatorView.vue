@@ -1,42 +1,62 @@
 <template>
   <div class="calculator">
     <div class="calculator__layout">
-
       <!-- ── Form ──────────────────────────────────────────────────── -->
-      <form class="calculator__form" @submit.prevent>
-
+      <form
+        class="calculator__form"
+        @submit.prevent
+      >
         <section class="form-section">
-          <h2 class="form-section__title">About you</h2>
+          <h2 class="form-section__title">
+            About you
+          </h2>
           <div class="form-row">
-            <label class="form-label" for="currentAge">
+            <label
+              class="form-label"
+              for="currentAge"
+            >
               Current age
               <InfoTooltip text="Your age today. Used to calculate how many years your investments have to grow before retirement." />
             </label>
             <input
               id="currentAge"
               v-model.number="inputs.currentAge"
-              type="number" min="16" max="100" step="1"
+              type="number"
+              min="16"
+              max="100"
+              step="1"
               class="form-input form-input--short"
-            />
+            >
           </div>
           <div class="form-row">
-            <label class="form-label" for="retirementAge">
+            <label
+              class="form-label"
+              for="retirementAge"
+            >
               Target retirement age
               <InfoTooltip text="The age at which you plan to stop relying on employment income. Drag the slider below the chart to explore how this changes your Coast number." />
             </label>
             <input
               id="retirementAge"
               v-model.number="inputs.retirementAge"
-              type="number" min="16" max="100" step="1"
+              type="number"
+              min="16"
+              max="100"
+              step="1"
               class="form-input form-input--short"
-            />
+            >
           </div>
         </section>
 
         <section class="form-section">
-          <h2 class="form-section__title">Current investments</h2>
+          <h2 class="form-section__title">
+            Current investments
+          </h2>
           <div class="form-row">
-            <label class="form-label" for="currentSipp">
+            <label
+              class="form-label"
+              for="currentSipp"
+            >
               Private pension / SIPP
               <span class="form-label__hint">Locked until age 57</span>
               <InfoTooltip text="Money held in a Self-Invested Personal Pension or other defined-contribution pension. Currently locked until age 57 (rising from 55 in April 2028). Include the current transfer value." />
@@ -46,13 +66,18 @@
               <input
                 id="currentSipp"
                 v-model.number="inputs.currentSippValue"
-                type="number" min="0" step="1000"
+                type="number"
+                min="0"
+                step="1000"
                 class="form-input"
-              />
+              >
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label" for="currentOther">
+            <label
+              class="form-label"
+              for="currentOther"
+            >
               Other investments
               <span class="form-label__hint">ISA, GIA, savings</span>
               <InfoTooltip text="ISAs, General Investment Accounts (GIAs), cash savings, or any other accessible pot. Unlike a SIPP, these can be accessed at any age — important if you plan to retire before 57." />
@@ -62,17 +87,24 @@
               <input
                 id="currentOther"
                 v-model.number="inputs.currentOtherInvestments"
-                type="number" min="0" step="1000"
+                type="number"
+                min="0"
+                step="1000"
                 class="form-input"
-              />
+              >
             </div>
           </div>
         </section>
 
         <section class="form-section">
-          <h2 class="form-section__title">Monthly contributions</h2>
+          <h2 class="form-section__title">
+            Monthly contributions
+          </h2>
           <div class="form-row">
-            <label class="form-label" for="monthlySipp">
+            <label
+              class="form-label"
+              for="monthlySipp"
+            >
               Private pension / SIPP
               <InfoTooltip text="How much you contribute to your pension each month. Include any employer match — it all counts towards your Coast number." />
             </label>
@@ -81,13 +113,18 @@
               <input
                 id="monthlySipp"
                 v-model.number="inputs.monthlyContributionSipp"
-                type="number" min="0" step="50"
+                type="number"
+                min="0"
+                step="50"
                 class="form-input"
-              />
+              >
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label" for="monthlyOther">
+            <label
+              class="form-label"
+              for="monthlyOther"
+            >
               Other investments
               <InfoTooltip text="How much you invest into ISAs, savings, or GIAs each month. These contributions are tracked separately from your pension." />
             </label>
@@ -96,17 +133,24 @@
               <input
                 id="monthlyOther"
                 v-model.number="inputs.monthlyContributionOther"
-                type="number" min="0" step="50"
+                type="number"
+                min="0"
+                step="50"
                 class="form-input"
-              />
+              >
             </div>
           </div>
         </section>
 
         <section class="form-section">
-          <h2 class="form-section__title">Retirement spending</h2>
+          <h2 class="form-section__title">
+            Retirement spending
+          </h2>
           <div class="form-row">
-            <label class="form-label" for="expenses">
+            <label
+              class="form-label"
+              for="expenses"
+            >
               Annual expenses in retirement
               <span class="form-label__hint">Today's money</span>
               <InfoTooltip text="How much you expect to spend each year once retired, in today's money. You don't need to account for inflation — the calculator works in real terms. A common starting point is 50–70% of current income." />
@@ -116,17 +160,24 @@
               <input
                 id="expenses"
                 v-model.number="inputs.annualRetirementExpenses"
-                type="number" min="0" step="1000"
+                type="number"
+                min="0"
+                step="1000"
                 class="form-input"
-              />
+              >
             </div>
           </div>
         </section>
 
         <section class="form-section">
-          <h2 class="form-section__title">State pension</h2>
+          <h2 class="form-section__title">
+            State pension
+          </h2>
           <div class="form-row form-row--toggle">
-            <label class="form-label" for="includeSP">
+            <label
+              class="form-label"
+              for="includeSP"
+            >
               Include State Pension?
               <InfoTooltip text="If enabled, the UK State Pension reduces the pot your investments need to fund. The calculator uses a two-tranche approach to account for the gap between your retirement age and State Pension Age." />
             </label>
@@ -136,25 +187,34 @@
                 v-model="inputs.includeStatePension"
                 type="checkbox"
                 class="toggle__input"
-              />
-              <span class="toggle__track"></span>
+              >
+              <span class="toggle__track" />
             </label>
           </div>
           <template v-if="inputs.includeStatePension">
             <div class="form-row">
-              <label class="form-label" for="spAge">
+              <label
+                class="form-label"
+                for="spAge"
+              >
                 State Pension age
                 <InfoTooltip text="The age at which UK State Pension payments begin. Currently 67 for people born after 5 April 1960. The government may raise this further — check gov.uk for the latest." />
               </label>
               <input
                 id="spAge"
                 v-model.number="inputs.statePensionAge"
-                type="number" min="55" max="75" step="1"
+                type="number"
+                min="55"
+                max="75"
+                step="1"
                 class="form-input form-input--short"
-              />
+              >
             </div>
             <div class="form-row">
-              <label class="form-label" for="spWeekly">
+              <label
+                class="form-label"
+                for="spWeekly"
+              >
                 Weekly State Pension amount
                 <span class="form-label__hint">Full new SP 2025/26: £221.20</span>
                 <InfoTooltip text="Your estimated weekly State Pension. The full new State Pension is £221.20/week (2025/26). You may receive less if you have gaps in your National Insurance record. Check your forecast at gov.uk/check-state-pension." />
@@ -164,9 +224,11 @@
                 <input
                   id="spWeekly"
                   v-model.number="inputs.statePensionWeeklyAmount"
-                  type="number" min="0" step="0.01"
+                  type="number"
+                  min="0"
+                  step="0.01"
                   class="form-input"
-                />
+                >
               </div>
             </div>
           </template>
@@ -177,8 +239,14 @@
             <summary class="form-section__title form-section__title--summary">
               Advanced assumptions
             </summary>
-            <div class="form-row" style="margin-top:1rem">
-              <label class="form-label" for="returnRate">
+            <div
+              class="form-row"
+              style="margin-top:1rem"
+            >
+              <label
+                class="form-label"
+                for="returnRate"
+              >
                 Real annual return rate
                 <span class="form-label__hint">After inflation, default 5%</span>
                 <InfoTooltip text="Expected investment return after inflation. Historically a diversified global equity portfolio has returned around 5–7% real per year over the long run. 5% is a cautious, commonly-used assumption." />
@@ -187,14 +255,20 @@
                 <input
                   id="returnRate"
                   v-model.number="inputs.realAnnualReturnRate"
-                  type="number" min="0" max="20" step="0.1"
+                  type="number"
+                  min="0"
+                  max="20"
+                  step="0.1"
                   class="form-input form-input--short"
-                />
+                >
                 <span class="form-input-suffix__symbol">%</span>
               </div>
             </div>
             <div class="form-row">
-              <label class="form-label" for="swr">
+              <label
+                class="form-label"
+                for="swr"
+              >
                 Safe withdrawal rate
                 <span class="form-label__hint">Default 4%</span>
                 <InfoTooltip text="The percentage of your pot you withdraw each year in retirement. The '4% rule' (Trinity Study) suggests this rate has historically sustained portfolios for 30+ years. For longer retirements, 3–3.5% is more conservative." />
@@ -203,47 +277,73 @@
                 <input
                   id="swr"
                   v-model.number="inputs.safeWithdrawalRate"
-                  type="number" min="0.1" max="20" step="0.1"
+                  type="number"
+                  min="0.1"
+                  max="20"
+                  step="0.1"
                   class="form-input form-input--short"
-                />
+                >
                 <span class="form-input-suffix__symbol">%</span>
               </div>
             </div>
           </details>
         </section>
-
       </form>
 
       <!-- ── Results ────────────────────────────────────────────────── -->
       <aside class="calculator__results">
-        <div class="results-card" :class="{ 'results-card--coasted': results.hasCoasted }">
-
-          <div v-if="results.hasCoasted" class="results-coasted-banner">
+        <div
+          class="results-card"
+          :class="{ 'results-card--coasted': results.hasCoasted }"
+        >
+          <div
+            v-if="results.hasCoasted"
+            class="results-coasted-banner"
+          >
             🎉 You've already coasted!
           </div>
 
           <dl class="results-list">
             <div class="results-item">
-              <dt class="results-item__label">FIRE number</dt>
-              <dd class="results-item__value">{{ fmt(results.fireNumber) }}</dd>
-              <dd class="results-item__sub">Total pot needed at retirement</dd>
+              <dt class="results-item__label">
+                FIRE number
+              </dt>
+              <dd class="results-item__value">
+                {{ fmt(results.fireNumber) }}
+              </dd>
+              <dd class="results-item__sub">
+                Total pot needed at retirement
+              </dd>
             </div>
 
             <div class="results-item">
-              <dt class="results-item__label">Coast FIRE number</dt>
+              <dt class="results-item__label">
+                Coast FIRE number
+              </dt>
               <dd class="results-item__value results-item__value--highlight">
                 {{ fmt(results.coastFireNumber) }}
               </dd>
-              <dd class="results-item__sub">What you need invested today to coast</dd>
+              <dd class="results-item__sub">
+                What you need invested today to coast
+              </dd>
             </div>
 
             <div class="results-item">
-              <dt class="results-item__label">Current total</dt>
-              <dd class="results-item__value">{{ fmt(results.currentTotal) }}</dd>
-              <dd class="results-item__sub">SIPP + other investments</dd>
+              <dt class="results-item__label">
+                Current total
+              </dt>
+              <dd class="results-item__value">
+                {{ fmt(results.currentTotal) }}
+              </dd>
+              <dd class="results-item__sub">
+                SIPP + other investments
+              </dd>
             </div>
 
-            <div class="results-item" :class="{ 'results-item--positive': results.hasCoasted }">
+            <div
+              class="results-item"
+              :class="{ 'results-item--positive': results.hasCoasted }"
+            >
               <dt class="results-item__label">
                 {{ results.hasCoasted ? 'Surplus' : 'Gap to coast' }}
               </dt>
@@ -258,8 +358,13 @@
             </div>
 
             <template v-if="!results.hasCoasted">
-              <div class="results-item" v-if="results.projectedCoastAge !== null">
-                <dt class="results-item__label">Projected coast age</dt>
+              <div
+                v-if="results.projectedCoastAge !== null"
+                class="results-item"
+              >
+                <dt class="results-item__label">
+                  Projected coast age
+                </dt>
                 <dd class="results-item__value results-item__value--accent">
                   Age {{ results.projectedCoastAge }}
                   <span class="results-item__year">({{ results.projectedCoastYear }})</span>
@@ -270,9 +375,16 @@
                   }} from now
                 </dd>
               </div>
-              <div class="results-item results-item--muted" v-else>
-                <dt class="results-item__label">Projected coast</dt>
-                <dd class="results-item__value">Not reached</dd>
+              <div
+                v-else
+                class="results-item results-item--muted"
+              >
+                <dt class="results-item__label">
+                  Projected coast
+                </dt>
+                <dd class="results-item__value">
+                  Not reached
+                </dd>
                 <dd class="results-item__sub">
                   Coast number not reached before retirement at current contribution rate
                 </dd>
@@ -282,11 +394,12 @@
 
           <p class="results-disclaimer">
             All values in today's money (real terms).
-            <RouterLink to="/explainer">How this works →</RouterLink>
+            <RouterLink to="/explainer">
+              How this works →
+            </RouterLink>
           </p>
         </div>
       </aside>
-
     </div>
 
     <!-- ── Chart (full width below form + results) ──────────────────── -->
@@ -304,7 +417,10 @@
           </span>
         </div>
         <div class="export-bar__actions">
-          <button class="btn btn--outline" @click="handleDownload">
+          <button
+            class="btn btn--outline"
+            @click="handleDownload"
+          >
             ↓ Download CSV
           </button>
           <button
@@ -317,7 +433,6 @@
         </div>
       </div>
     </section>
-
   </div>
 </template>
 

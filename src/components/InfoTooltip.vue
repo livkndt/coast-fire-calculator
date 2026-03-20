@@ -6,12 +6,36 @@
       :aria-describedby="id"
       aria-label="More information"
     >
-      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-        <circle cx="7" cy="7" r="6.5" stroke="currentColor" stroke-width="1" fill="none"/>
-        <text x="7" y="11" text-anchor="middle" font-size="9" font-weight="bold" font-family="sans-serif">i</text>
+      <svg
+        aria-hidden="true"
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="currentColor"
+      >
+        <circle
+          cx="7"
+          cy="7"
+          r="6.5"
+          stroke="currentColor"
+          stroke-width="1"
+          fill="none"
+        />
+        <text
+          x="7"
+          y="11"
+          text-anchor="middle"
+          font-size="9"
+          font-weight="bold"
+          font-family="sans-serif"
+        >i</text>
       </svg>
     </button>
-    <span :id="id" role="tooltip" class="tip__bubble">{{ text }}</span>
+    <span
+      :id="id"
+      role="tooltip"
+      class="tip__bubble"
+    >{{ text }}</span>
   </span>
 </template>
 

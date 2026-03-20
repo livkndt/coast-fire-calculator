@@ -2,10 +2,25 @@
   <div class="app">
     <header class="app-header">
       <div class="app-header__inner">
-        <RouterLink to="/" class="app-header__logo">Coast FIRE Calculator</RouterLink>
+        <RouterLink
+          to="/"
+          class="app-header__logo"
+        >
+          Coast FIRE Calculator
+        </RouterLink>
         <nav class="app-header__nav">
-          <RouterLink to="/" class="app-header__nav-link">Calculator</RouterLink>
-          <RouterLink to="/explainer" class="app-header__nav-link">How it works</RouterLink>
+          <RouterLink
+            to="/"
+            class="app-header__nav-link"
+          >
+            Calculator
+          </RouterLink>
+          <RouterLink
+            to="/explainer"
+            class="app-header__nav-link"
+          >
+            How it works
+          </RouterLink>
         </nav>
       </div>
     </header>
