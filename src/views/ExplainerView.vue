@@ -1,10 +1,16 @@
 <template>
   <div class="explainer">
     <div class="explainer__inner">
+      <RouterLink
+        to="/"
+        class="back-link"
+      >
+        &larr; Back to calculator
+      </RouterLink>
 
-      <RouterLink to="/" class="back-link">&larr; Back to calculator</RouterLink>
-
-      <h1 class="explainer__title">How it works</h1>
+      <h1 class="explainer__title">
+        How it works
+      </h1>
       <p class="explainer__intro">
         This calculator helps you find your <strong>Coast FIRE number</strong> — the amount
         you need invested today so that, without any further contributions, your portfolio
@@ -20,15 +26,21 @@
 
       <!-- ── 1. The FIRE number ──────────────────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">1. The FIRE number</h2>
+        <h2 class="section__title">
+          1. The FIRE number
+        </h2>
         <p>
           Your <strong>FIRE number</strong> is the total investment pot that, once reached,
           can fund your retirement indefinitely — without you ever needing to earn again.
           It is calculated using the <strong>Safe Withdrawal Rate (SWR)</strong>:
         </p>
         <div class="formula">
-          <div class="formula__eq">FIRE number = Annual expenses ÷ SWR</div>
-          <div class="formula__eg">e.g. £40,000 ÷ 4% = <strong>£1,000,000</strong></div>
+          <div class="formula__eq">
+            FIRE number = Annual expenses ÷ SWR
+          </div>
+          <div class="formula__eg">
+            e.g. £40,000 ÷ 4% = <strong>£1,000,000</strong>
+          </div>
         </div>
         <p>
           At a 4% withdrawal rate, you withdraw 4% of the pot each year. Because a
@@ -40,7 +52,9 @@
 
       <!-- ── 2. Safe withdrawal rate ─────────────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">2. Safe Withdrawal Rate (SWR)</h2>
+        <h2 class="section__title">
+          2. Safe Withdrawal Rate (SWR)
+        </h2>
         <p>
           The 4% rule originates from the <strong>Trinity Study</strong> (1998), which
           analysed historical US market data and found that a portfolio invested in a mix
@@ -67,7 +81,9 @@
 
       <!-- ── 3. State pension adjustment ────────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">3. UK State Pension adjustment</h2>
+        <h2 class="section__title">
+          3. UK State Pension adjustment
+        </h2>
         <p>
           If you plan to receive the UK State Pension, it reduces the amount your
           investment portfolio needs to fund. Because the State Pension only starts at State
@@ -76,25 +92,33 @@
         </p>
         <div class="two-col">
           <div class="two-col__item">
-            <div class="two-col__label">Tranche 1 — the bridge</div>
+            <div class="two-col__label">
+              Tranche 1 — the bridge
+            </div>
             <p>
               During the gap between your retirement and State Pension Age, you fund
               <em>full</em> expenses from investments alone. We calculate the present value
               of this annuity stream:
             </p>
             <div class="formula formula--sm">
-              <div class="formula__eq">Bridge = Expenses × (1 − 1/(1+r)<sup>gap</sup>) / r</div>
+              <div class="formula__eq">
+                Bridge = Expenses × (1 − 1/(1+r)<sup>gap</sup>) / r
+              </div>
             </div>
           </div>
           <div class="two-col__item">
-            <div class="two-col__label">Tranche 2 — long-term pot</div>
+            <div class="two-col__label">
+              Tranche 2 — long-term pot
+            </div>
             <p>
               From State Pension Age onwards, you only need to fund expenses
               <em>minus</em> the State Pension. We calculate the pot needed at SPA and
               discount it back to your retirement date:
             </p>
             <div class="formula formula--sm">
-              <div class="formula__eq">Pot at retirement = (Expenses − SP) / SWR / (1+r)<sup>gap</sup></div>
+              <div class="formula__eq">
+                Pot at retirement = (Expenses − SP) / SWR / (1+r)<sup>gap</sup>
+              </div>
             </div>
           </div>
         </div>
@@ -106,7 +130,11 @@
         <p class="note">
           The full new State Pension for 2025/26 is <strong>£221.20/week</strong>
           (£11,502.40/year). You can check your personal forecast at
-          <a href="https://www.gov.uk/check-state-pension" target="_blank" rel="noopener">
+          <a
+            href="https://www.gov.uk/check-state-pension"
+            target="_blank"
+            rel="noopener"
+          >
             gov.uk/check-state-pension
           </a>.
         </p>
@@ -114,7 +142,9 @@
 
       <!-- ── 4. Coast FIRE number ────────────────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">4. The Coast FIRE number</h2>
+        <h2 class="section__title">
+          4. The Coast FIRE number
+        </h2>
         <p>
           Your <strong>Coast FIRE number</strong> is the amount you need invested
           <em>right now</em> such that — even with zero further contributions — compound
@@ -139,7 +169,9 @@
 
       <!-- ── 5. Real vs nominal returns ─────────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">5. Real vs nominal returns</h2>
+        <h2 class="section__title">
+          5. Real vs nominal returns
+        </h2>
         <p>
           All monetary values in this calculator are in <strong>today's money</strong>
           (real terms). This means:
@@ -159,8 +191,12 @@
           </li>
         </ul>
         <div class="formula">
-          <div class="formula__eq">Real return ≈ Nominal return − Inflation</div>
-          <div class="formula__eg">e.g. 7.5% − 2.5% = <strong>5% real</strong></div>
+          <div class="formula__eq">
+            Real return ≈ Nominal return − Inflation
+          </div>
+          <div class="formula__eg">
+            e.g. 7.5% − 2.5% = <strong>5% real</strong>
+          </div>
         </div>
         <p class="note">
           Using real returns in a real-terms model is equivalent to using nominal returns
@@ -171,7 +207,9 @@
 
       <!-- ── 6. SIPP vs other investments ───────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">6. SIPP vs other investments</h2>
+        <h2 class="section__title">
+          6. SIPP vs other investments
+        </h2>
         <p>
           This calculator tracks two investment buckets separately, because they have
           different accessibility rules:
@@ -210,7 +248,9 @@
 
       <!-- ── 7. Default assumptions ──────────────────────────────────── -->
       <section class="section">
-        <h2 class="section__title">7. Default assumptions</h2>
+        <h2 class="section__title">
+          7. Default assumptions
+        </h2>
         <table class="table">
           <thead>
             <tr><th>Assumption</th><th>Default</th><th>Editable?</th><th>Source</th></tr>
@@ -263,8 +303,12 @@
         charges, or individual circumstances. Always seek independent financial advice.
       </div>
 
-      <RouterLink to="/" class="back-link back-link--bottom">&larr; Back to calculator</RouterLink>
-
+      <RouterLink
+        to="/"
+        class="back-link back-link--bottom"
+      >
+        &larr; Back to calculator
+      </RouterLink>
     </div>
   </div>
 </template>

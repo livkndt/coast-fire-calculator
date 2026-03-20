@@ -68,7 +68,18 @@ export const useCalculatorStore = defineStore('calculator', () => {
 
   // ── Private helpers ────────────────────────────────────────────────────
 
+  function _inputsValid(): boolean {
+    const i = inputs.value
+    return (
+      i.safeWithdrawalRate > 0 &&
+      i.realAnnualReturnRate > 0 &&
+      i.annualRetirementExpenses >= 0 &&
+      i.retirementAge > i.currentAge
+    )
+  }
+
   function _fireNumber(): number {
+    if (!_inputsValid()) return 0
     const annualStatePension = weeklyToAnnual(inputs.value.statePensionWeeklyAmount)
     return calculateAdjustedFireNumber({
       annualExpenses: inputs.value.annualRetirementExpenses,
@@ -82,6 +93,7 @@ export const useCalculatorStore = defineStore('calculator', () => {
   }
 
   function _coastFireNumber(): number {
+    if (!_inputsValid()) return 0
     const yearsToRetirement = Math.max(0, inputs.value.retirementAge - inputs.value.currentAge)
     return calculateCoastNumber(_fireNumber(), inputs.value.realAnnualReturnRate, yearsToRetirement)
   }

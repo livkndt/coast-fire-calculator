@@ -91,15 +91,16 @@ test.describe('No JS errors or CSP violations', () => {
 test.describe('Calculator happy path', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.waitForSelector('.results-card')
+    await page.waitForSelector('.results-item__label')
   })
 
   test('results card shows all expected labels', async ({ page }) => {
-    // Use exact-match regex to avoid 'FIRE number' matching inside 'Coast FIRE number'.
+    // getByText with exact:true trims whitespace before matching, so it works
+    // regardless of whether the dt text is inline or wrapped across lines.
     // Default inputs are all zero so we check structure, not values.
-    await expect(page.locator('dt', { hasText: /^FIRE number$/ })).toBeVisible()
-    await expect(page.locator('dt', { hasText: /^Coast FIRE number$/ })).toBeVisible()
-    await expect(page.locator('dt', { hasText: /^Current total$/ })).toBeVisible()
+    await expect(page.locator('dt').getByText('FIRE number', { exact: true })).toBeVisible()
+    await expect(page.locator('dt').getByText('Coast FIRE number', { exact: true })).toBeVisible()
+    await expect(page.locator('dt').getByText('Current total', { exact: true })).toBeVisible()
 
     // All value cells render formatted currency strings (including £0 for empty defaults).
     const values = page.locator('.results-item__value')
