@@ -152,20 +152,12 @@
               for="expenses"
             >
               Annual expenses in retirement
-              <span class="form-label__hint">Today's money</span>
-              <InfoTooltip text="How much you expect to spend each year once retired, in today's money. You don't need to account for inflation — the calculator works in real terms. A common starting point is 50–70% of current income." />
+              <span class="form-label__hint">Today's money · PLSA 2024/25</span>
+              <InfoTooltip text="How much you expect to spend each year once retired, in today's money. You don't need to account for inflation — the calculator works in real terms. Presets use PLSA Retirement Living Standards 2024/25 for a single person." />
             </label>
-            <div class="form-input-prefix">
-              <span class="form-input-prefix__symbol">£</span>
-              <input
-                id="expenses"
-                v-model.number="inputs.annualRetirementExpenses"
-                type="number"
-                min="0"
-                step="1000"
-                class="form-input"
-              >
-            </div>
+            <SpendingPresetInput
+              v-model="inputs.annualRetirementExpenses"
+            />
           </div>
         </section>
 
@@ -441,6 +433,7 @@ import { storeToRefs } from 'pinia'
 import { useCalculatorStore } from '@/stores/calculator'
 import ProjectionChart from '@/components/ProjectionChart.vue'
 import InfoTooltip from '@/components/InfoTooltip.vue'
+import SpendingPresetInput from '@/components/SpendingPresetInput.vue'
 import { useExport } from '@/composables/useExport'
 
 const store = useCalculatorStore()

@@ -12,6 +12,7 @@ Coast FIRE is the point at which your invested assets are large enough that — 
 - **SIPP + other investments** — tracks pension (locked until 57) and accessible investments (ISA, GIA, savings) separately
 - **State Pension integration** — optional State Pension income reduces your required pot
 - **Year-by-year projection chart** — shows portfolio growth and the point your savings cross the Coast FIRE line
+- **Spending presets** — Minimum / Moderate / Comfortable presets based on PLSA Retirement Living Standards 2024/25 (single person), fully editable
 - **CSV export and copy-to-clipboard** — share or save your projection data
 - **All values in real terms** — no inflation distortion; every number is in today's money
 
