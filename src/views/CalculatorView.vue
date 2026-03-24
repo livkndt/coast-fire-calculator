@@ -76,17 +76,59 @@
           <div class="form-row">
             <label
               class="form-label"
-              for="currentOther"
+              for="currentIsa"
             >
-              Other investments
-              <span class="form-label__hint">ISA, GIA, savings</span>
-              <InfoTooltip text="ISAs, General Investment Accounts (GIAs), cash savings, or any other accessible pot. Unlike a SIPP, these can be accessed at any age — important if you plan to retire before 57." />
+              ISA
+              <span class="form-label__hint">Tax-free growth &amp; withdrawals</span>
+              <InfoTooltip text="Money held in an Individual Savings Account. Growth and withdrawals are completely free of tax. Accessible at any age — important if you plan to retire before 57." />
             </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
               <input
-                id="currentOther"
-                v-model.number="inputs.currentOtherInvestments"
+                id="currentIsa"
+                v-model.number="inputs.currentIsaValue"
+                type="number"
+                min="0"
+                step="1000"
+                class="form-input"
+              >
+            </div>
+          </div>
+          <div class="form-row">
+            <label
+              class="form-label"
+              for="currentGia"
+            >
+              GIA
+              <span class="form-label__hint">General Investment Account</span>
+              <InfoTooltip text="A General Investment Account has no annual contribution limit but gains above the Capital Gains Tax allowance may be taxable on disposal. Accessible at any age." />
+            </label>
+            <div class="form-input-prefix">
+              <span class="form-input-prefix__symbol">£</span>
+              <input
+                id="currentGia"
+                v-model.number="inputs.currentGiaValue"
+                type="number"
+                min="0"
+                step="1000"
+                class="form-input"
+              >
+            </div>
+          </div>
+          <div class="form-row">
+            <label
+              class="form-label"
+              for="currentCash"
+            >
+              Cash savings
+              <span class="form-label__hint">Bank accounts, easy-access savings</span>
+              <InfoTooltip text="Cash held in bank accounts or easy-access savings accounts. Interest above the Personal Savings Allowance (£500–£1,000/year depending on your tax band) is taxable. Accessible at any age." />
+            </label>
+            <div class="form-input-prefix">
+              <span class="form-input-prefix__symbol">£</span>
+              <input
+                id="currentCash"
+                v-model.number="inputs.currentCashValue"
                 type="number"
                 min="0"
                 step="1000"
@@ -123,16 +165,56 @@
           <div class="form-row">
             <label
               class="form-label"
-              for="monthlyOther"
+              for="monthlyIsa"
             >
-              Other investments
-              <InfoTooltip text="How much you invest into ISAs, savings, or GIAs each month. These contributions are tracked separately from your pension." />
+              ISA
+              <InfoTooltip text="How much you contribute to your ISA each month." />
             </label>
             <div class="form-input-prefix">
               <span class="form-input-prefix__symbol">£</span>
               <input
-                id="monthlyOther"
-                v-model.number="inputs.monthlyContributionOther"
+                id="monthlyIsa"
+                v-model.number="inputs.monthlyContributionIsa"
+                type="number"
+                min="0"
+                step="50"
+                class="form-input"
+              >
+            </div>
+          </div>
+          <div class="form-row">
+            <label
+              class="form-label"
+              for="monthlyGia"
+            >
+              GIA
+              <InfoTooltip text="How much you invest into a General Investment Account each month." />
+            </label>
+            <div class="form-input-prefix">
+              <span class="form-input-prefix__symbol">£</span>
+              <input
+                id="monthlyGia"
+                v-model.number="inputs.monthlyContributionGia"
+                type="number"
+                min="0"
+                step="50"
+                class="form-input"
+              >
+            </div>
+          </div>
+          <div class="form-row">
+            <label
+              class="form-label"
+              for="monthlyCash"
+            >
+              Cash savings
+              <InfoTooltip text="How much you add to bank accounts or easy-access savings each month." />
+            </label>
+            <div class="form-input-prefix">
+              <span class="form-input-prefix__symbol">£</span>
+              <input
+                id="monthlyCash"
+                v-model.number="inputs.monthlyContributionCash"
                 type="number"
                 min="0"
                 step="50"
