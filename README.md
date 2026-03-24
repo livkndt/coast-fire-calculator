@@ -1,5 +1,7 @@
 # Coast FIRE Calculator
 
+Demo: https://coast-fire-calculator-topaz.vercel.app/
+
 A UK-focused Coast FIRE calculator that works in real terms (today's money). Enter your current savings, planned contributions, and target retirement expenses — the calculator tells you your FIRE number, your Coast FIRE number, and projects the year you can stop contributing and let compound growth do the rest.
 
 ## What is Coast FIRE?
