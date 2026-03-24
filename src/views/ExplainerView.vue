@@ -228,7 +228,7 @@
               <td><strong>SIPP / pension</strong></td>
               <td>SIPP, workplace pension</td>
               <td>Age 57 (from April 2028)</td>
-              <td>Contributions tax-free; withdrawals taxed</td>
+              <td>Contributions tax-relieved; withdrawals taxed (25% tax-free, 75% at marginal rate)</td>
             </tr>
             <tr>
               <td><strong>Other investments</strong></td>
@@ -246,10 +246,71 @@
         </p>
       </section>
 
-      <!-- ── 7. Default assumptions ──────────────────────────────────── -->
+      <!-- ── 7. SIPP pension tax ──────────────────────────────────────── -->
       <section class="section">
         <h2 class="section__title">
-          7. Default assumptions
+          7. SIPP pension tax
+        </h2>
+        <p>
+          When you draw from a SIPP in flexi-access drawdown, each withdrawal is treated
+          as follows under current UK rules:
+        </p>
+        <ul>
+          <li><strong>25% is tax-free</strong> — the Pension Commencement Lump Sum (PCLS) element, applied per withdrawal.</li>
+          <li><strong>75% is taxed</strong> as income at your marginal rate.</li>
+        </ul>
+        <p>
+          This means you need to withdraw <em>more</em> than you actually want to spend,
+          to cover the tax on the taxable portion. To receive a net amount <strong>X</strong>
+          at a marginal rate <strong>t</strong>:
+        </p>
+        <div class="formula">
+          <div class="formula__eq">
+            Gross withdrawal W = X ÷ (1 − 0.75 × t)
+          </div>
+          <div class="formula__eg">
+            e.g. to net £30,000 at 20% tax: £30,000 ÷ (1 − 0.15) = <strong>£35,294</strong>
+          </div>
+        </div>
+        <p>
+          If only part of your retirement pot is in a SIPP, the calculator blends the
+          gross-up proportionally. Where <strong>f</strong> is the SIPP fraction at
+          retirement:
+        </p>
+        <div class="formula">
+          <div class="formula__eq">
+            Gross expenses = Net expenses × [ f ÷ (1 − 0.75t) + (1 − f) ]
+          </div>
+        </div>
+        <p>
+          The SIPP fraction is computed analytically from your current values and
+          contributions, projected forward to retirement at your chosen real return rate.
+          The grossed-up figure is then used in place of net expenses throughout the FIRE
+          number calculation — so both the bridge and the long-term pot reflect what you
+          actually need to withdraw.
+        </p>
+        <p class="note">
+          <strong>When does 0% make sense?</strong> The personal allowance is £12,570
+          (2025/26). The full State Pension is ~£11,973/year — which already consumes
+          nearly all of it, leaving only ~£600 of headroom for SIPP withdrawals. So once
+          State Pension starts, almost any meaningful SIPP drawdown will be taxed at 20%.
+          The main scenario where 0% is realistic is during the <em>bridge phase before
+          State Pension Age</em>: with no State Pension income yet, you can draw up to
+          ~£12,570/year from your SIPP tax-free and fund the rest from your ISA. If your
+          SIPP is large, <strong>20% is the more realistic rate to set</strong> for
+          post-SPA income.
+          <br><br>
+          <strong>Simplification:</strong> the calculator applies the same SIPP fraction
+          to both phases of a two-tranche calculation. Before age 57 the SIPP isn't
+          accessible, so the true bridge pot is funded entirely from other investments —
+          meaning this approach slightly overstates the required total in that scenario.
+        </p>
+      </section>
+
+      <!-- ── 8. Default assumptions ──────────────────────────────────── -->
+      <section class="section">
+        <h2 class="section__title">
+          8. Default assumptions
         </h2>
         <table class="table">
           <thead>
@@ -287,6 +348,12 @@
               <td>2025/26 rate</td>
             </tr>
             <tr>
+              <td>Pension tax rate</td>
+              <td>0%</td>
+              <td>Yes</td>
+              <td>Marginal income tax rate on SIPP withdrawals; set to 0 to ignore</td>
+            </tr>
+            <tr>
               <td>Compounding</td>
               <td>Annual, end-of-year</td>
               <td>No</td>
@@ -299,8 +366,10 @@
       <div class="disclaimer disclaimer--footer">
         <strong>Not financial advice.</strong> Coast FIRE Calculator is an educational tool.
         Investment returns are uncertain and past performance is not a reliable indicator
-        of future results. The calculator does not account for taxes on withdrawals,
-        charges, or individual circumstances. Always seek independent financial advice.
+        of future results. The pension tax model is a simplification — it does not account
+        for the annual personal allowance, tax bands changing over time, or other income
+        sources in retirement. The calculator does not account for product charges or all
+        individual circumstances. Always seek independent financial advice.
       </div>
 
       <RouterLink

@@ -360,6 +360,28 @@
                 <span class="form-input-suffix__symbol">%</span>
               </div>
             </div>
+            <div class="form-row">
+              <label
+                class="form-label"
+                for="pensionTaxRate"
+              >
+                Pension tax rate
+                <span class="form-label__hint">Default 0%</span>
+                <InfoTooltip text="Your expected marginal income tax rate in retirement. Applied to 75% of SIPP withdrawals (25% is always tax-free). Set to 0 if you expect SIPP income to stay within your personal allowance." />
+              </label>
+              <div class="form-input-suffix">
+                <input
+                  id="pensionTaxRate"
+                  v-model.number="inputs.pensionTaxRate"
+                  type="number"
+                  min="0"
+                  max="45"
+                  step="1"
+                  class="form-input form-input--short"
+                >
+                <span class="form-input-suffix__symbol">%</span>
+              </div>
+            </div>
           </details>
         </section>
       </form>

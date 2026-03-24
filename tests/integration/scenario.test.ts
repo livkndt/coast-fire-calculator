@@ -24,6 +24,7 @@
 import { describe, it, expect } from 'vitest'
 import { weeklyToAnnual, isSippAccessible } from '@/core/pension'
 import { calculateAdjustedFireNumber } from '@/core/fire'
+import { projectTerminalSippFraction } from '@/core/tax'
 import { calculateCoastNumber, hasCoasted, coastGap } from '@/core/coast'
 import { buildProjection, findCoastTarget } from '@/core/projection'
 
@@ -76,6 +77,8 @@ describe('Adjusted FIRE number', () => {
       statePensionAge: STATE_PENSION_AGE,
       annualStatePension,
       realAnnualReturnRate: REAL_RETURN_RATE,
+      sippFraction: 0,
+      pensionTaxRate: 0,
     })
     expect(adjusted).toBeLessThan(naive)
   })
@@ -89,6 +92,8 @@ describe('Adjusted FIRE number', () => {
       statePensionAge: STATE_PENSION_AGE,
       annualStatePension,
       realAnnualReturnRate: REAL_RETURN_RATE,
+      sippFraction: 0,
+      pensionTaxRate: 0,
     })
     // Expected ≈ £808,500 — allow ±£15,000 for manual rounding
     expect(adjusted).toBeGreaterThan(780_000)
@@ -108,6 +113,8 @@ describe('Coast FIRE number', () => {
     statePensionAge: STATE_PENSION_AGE,
     annualStatePension,
     realAnnualReturnRate: REAL_RETURN_RATE,
+    sippFraction: 0,
+    pensionTaxRate: 0,
   })
   const yearsToRetirement = RETIREMENT_AGE - CURRENT_AGE  // 25
   const coastNumber = calculateCoastNumber(fireNumber, REAL_RETURN_RATE, yearsToRetirement)
@@ -143,6 +150,8 @@ describe('Projection shape', () => {
     statePensionAge: STATE_PENSION_AGE,
     annualStatePension,
     realAnnualReturnRate: REAL_RETURN_RATE,
+    sippFraction: 0,
+    pensionTaxRate: 0,
   })
   const coastNumber = calculateCoastNumber(
     fireNumber,
@@ -204,6 +213,8 @@ describe('Coast milestone', () => {
     statePensionAge: STATE_PENSION_AGE,
     annualStatePension,
     realAnnualReturnRate: REAL_RETURN_RATE,
+    sippFraction: 0,
+    pensionTaxRate: 0,
   })
   const coastNumber = calculateCoastNumber(
     fireNumber,
@@ -252,5 +263,62 @@ describe('Coast milestone', () => {
     const target = findCoastTarget(rows)
     const startIndex = target.yearsToCoast as number
     rows.slice(startIndex).forEach(row => expect(row.coastReached).toBe(true))
+  })
+})
+
+// ── Step 7 — Pension tax scenario ─────────────────────────────────────────
+
+describe('Pension tax (20% marginal rate)', () => {
+  const annualStatePension = weeklyToAnnual(WEEKLY_STATE_PENSION)
+
+  // Compute SIPP fraction analytically from the same inputs used throughout
+  const sippFraction = projectTerminalSippFraction({
+    currentAge: CURRENT_AGE,
+    retirementAge: RETIREMENT_AGE,
+    currentSippValue: CURRENT_SIPP,
+    currentOtherInvestments: CURRENT_OTHER,
+    monthlyContributionSipp: MONTHLY_SIPP,
+    monthlyContributionOther: MONTHLY_OTHER,
+    realAnnualReturnRate: REAL_RETURN_RATE,
+  })
+
+  const fireNumberNoTax = calculateAdjustedFireNumber({
+    annualExpenses: ANNUAL_EXPENSES,
+    safeWithdrawalRate: SWR,
+    retirementAge: RETIREMENT_AGE,
+    includeStatePension: true,
+    statePensionAge: STATE_PENSION_AGE,
+    annualStatePension,
+    realAnnualReturnRate: REAL_RETURN_RATE,
+    sippFraction,
+    pensionTaxRate: 0,
+  })
+
+  const fireNumberWithTax = calculateAdjustedFireNumber({
+    annualExpenses: ANNUAL_EXPENSES,
+    safeWithdrawalRate: SWR,
+    retirementAge: RETIREMENT_AGE,
+    includeStatePension: true,
+    statePensionAge: STATE_PENSION_AGE,
+    annualStatePension,
+    realAnnualReturnRate: REAL_RETURN_RATE,
+    sippFraction,
+    pensionTaxRate: 20,
+  })
+
+  it('sippFraction is between 0 and 1 for this scenario', () => {
+    expect(sippFraction).toBeGreaterThan(0)
+    expect(sippFraction).toBeLessThanOrEqual(1)
+  })
+
+  it('adjusted FIRE number is higher with pension tax than without', () => {
+    expect(fireNumberWithTax).toBeGreaterThan(fireNumberNoTax)
+  })
+
+  it('coast number is correspondingly higher with pension tax', () => {
+    const yearsToRetirement = RETIREMENT_AGE - CURRENT_AGE
+    const coastNoTax = calculateCoastNumber(fireNumberNoTax, REAL_RETURN_RATE, yearsToRetirement)
+    const coastWithTax = calculateCoastNumber(fireNumberWithTax, REAL_RETURN_RATE, yearsToRetirement)
+    expect(coastWithTax).toBeGreaterThan(coastNoTax)
   })
 })

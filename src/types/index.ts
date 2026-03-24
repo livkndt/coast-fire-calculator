@@ -28,6 +28,7 @@ export interface CoastFireInputs {
   annualRetirementExpenses: number  // In today's money
   realAnnualReturnRate: number      // % after inflation, e.g. 5
   safeWithdrawalRate: number        // %, e.g. 4
+  pensionTaxRate: number            // Marginal income tax rate on SIPP withdrawals, %, e.g. 20. Default 0.
 }
 
 export interface CoastFireResult {

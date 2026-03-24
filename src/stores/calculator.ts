@@ -2,6 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { weeklyToAnnual } from '@/core/pension'
 import { calculateAdjustedFireNumber } from '@/core/fire'
+import { projectTerminalSippFraction } from '@/core/tax'
 import { calculateCoastNumber, hasCoasted, coastGap } from '@/core/coast'
 import { buildProjection, findCoastTarget } from '@/core/projection'
 import type { CoastFireInputs, CoastFireResult } from '@/types'
@@ -24,6 +25,7 @@ const DEFAULT_INPUTS: CoastFireInputs = {
   annualRetirementExpenses: 0,
   realAnnualReturnRate: 5,
   safeWithdrawalRate: 4,
+  pensionTaxRate: 0,
 }
 
 export const useCalculatorStore = defineStore('calculator', () => {
@@ -93,6 +95,15 @@ export const useCalculatorStore = defineStore('calculator', () => {
   function _fireNumber(): number {
     if (!_inputsValid()) return 0
     const annualStatePension = weeklyToAnnual(inputs.value.statePensionWeeklyAmount)
+    const sippFraction = projectTerminalSippFraction({
+      currentAge: inputs.value.currentAge,
+      retirementAge: inputs.value.retirementAge,
+      currentSippValue: inputs.value.currentSippValue,
+      currentOtherInvestments: totalOther.value,
+      monthlyContributionSipp: inputs.value.monthlyContributionSipp,
+      monthlyContributionOther: totalMonthlyOther.value,
+      realAnnualReturnRate: inputs.value.realAnnualReturnRate,
+    })
     return calculateAdjustedFireNumber({
       annualExpenses: inputs.value.annualRetirementExpenses,
       safeWithdrawalRate: inputs.value.safeWithdrawalRate,
@@ -101,6 +112,8 @@ export const useCalculatorStore = defineStore('calculator', () => {
       statePensionAge: inputs.value.statePensionAge,
       annualStatePension,
       realAnnualReturnRate: inputs.value.realAnnualReturnRate,
+      sippFraction,
+      pensionTaxRate: inputs.value.pensionTaxRate,
     })
   }
 

@@ -151,14 +151,15 @@ test.describe('Explainer page happy path', () => {
     await page.waitForSelector('h1')
   })
 
-  test('renders all seven sections', async ({ page }) => {
+  test('renders all eight sections', async ({ page }) => {
     await expect(page.locator('text=1. The FIRE number')).toBeVisible()
     await expect(page.locator('text=2. Safe Withdrawal Rate')).toBeVisible()
     await expect(page.locator('text=3. UK State Pension adjustment')).toBeVisible()
     await expect(page.locator('text=4. The Coast FIRE number')).toBeVisible()
     await expect(page.locator('text=5. Real vs nominal returns')).toBeVisible()
     await expect(page.locator('text=6. SIPP vs other investments')).toBeVisible()
-    await expect(page.locator('text=7. Default assumptions')).toBeVisible()
+    await expect(page.locator('text=7. SIPP pension tax')).toBeVisible()
+    await expect(page.locator('text=8. Default assumptions')).toBeVisible()
   })
 })
 

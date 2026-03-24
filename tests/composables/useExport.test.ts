@@ -48,6 +48,7 @@ const baseInputs: CoastFireInputs = {
   annualRetirementExpenses: 32_000,
   realAnnualReturnRate: 5,
   safeWithdrawalRate: 4,
+  pensionTaxRate: 0,
 }
 
 // ── buildCsvContent ────────────────────────────────────────────────────────
