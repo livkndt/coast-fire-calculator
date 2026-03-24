@@ -3,6 +3,8 @@ import { Configuration, DefinePlugin } from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { VueLoaderPlugin } from 'vue-loader'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import 'webpack-dev-server'
 
 // CSP for the dev server — allows 'unsafe-inline' for styles because
@@ -19,8 +21,9 @@ const DEV_CSP = [
   "frame-ancestors 'none'",
 ].join('; ')
 
-export default (_env: unknown, argv: { mode?: string }): Configuration => {
+export default (env: Record<string, unknown>, argv: { mode?: string }): Configuration => {
   const isProd = argv.mode === 'production'
+  const analyse = Boolean(env?.analyse)
 
   return {
     // 'cheap-module-source-map' gives useful source maps without using eval,
@@ -76,6 +79,7 @@ export default (_env: unknown, argv: { mode?: string }): Configuration => {
       ...(isProd
         ? [new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })]
         : []),
+      ...(analyse ? [new BundleAnalyzerPlugin()] : []),
     ],
     devServer: {
       port: 3000,
@@ -93,9 +97,35 @@ export default (_env: unknown, argv: { mode?: string }): Configuration => {
       },
     },
     optimization: {
+      minimize: isProd,
+      minimizer: [
+        '...', // preserves default TerserPlugin for JS
+        new CssMinimizerPlugin(),
+      ],
       splitChunks: {
         chunks: 'all',
+        cacheGroups: {
+          chartjs: {
+            test: /[\\/]node_modules[\\/](chart\.js|vue-chartjs|@kurkle)[\\/]/,
+            name: 'vendor-chart',
+            chunks: 'all',
+            priority: 20,
+          },
+          framework: {
+            test: /[\\/]node_modules[\\/](vue|pinia|vue-router|@vue)[\\/]/,
+            name: 'vendor-framework',
+            chunks: 'all',
+            priority: 10,
+          },
+        },
       },
     },
+    performance: isProd
+      ? {
+          hints: 'error',
+          maxAssetSize: 200_000,
+          maxEntrypointSize: 300_000,
+        }
+      : false,
   }
 }
