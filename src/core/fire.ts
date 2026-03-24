@@ -1,3 +1,5 @@
+import { grossAnnualExpenses } from './tax'
+
 /**
  * Calculates the total investment pot required to sustain a given annual
  * spending indefinitely, using the Safe Withdrawal Rate method.
@@ -30,6 +32,8 @@ export interface AdjustedFireInputs {
   statePensionAge: number
   annualStatePension: number      // £/year
   realAnnualReturnRate: number    // %, e.g. 5 for 5%
+  sippFraction: number            // Proportion of pot in SIPP at retirement (0–1)
+  pensionTaxRate: number          // Marginal income tax rate on SIPP withdrawals, % (e.g. 20)
 }
 
 /**
@@ -52,6 +56,8 @@ export function calculateAdjustedFireNumber(inputs: AdjustedFireInputs): number 
     statePensionAge,
     annualStatePension,
     realAnnualReturnRate,
+    sippFraction,
+    pensionTaxRate,
   } = inputs
 
   if (annualExpenses < 0) {
@@ -64,15 +70,17 @@ export function calculateAdjustedFireNumber(inputs: AdjustedFireInputs): number 
     throw new RangeError('realAnnualReturnRate must be non-negative')
   }
 
+  const grossedExpenses = grossAnnualExpenses(annualExpenses, sippFraction, pensionTaxRate)
+
   if (!includeStatePension) {
-    return calculateFireNumber(annualExpenses, safeWithdrawalRate)
+    return calculateFireNumber(grossedExpenses, safeWithdrawalRate)
   }
 
   const swr = safeWithdrawalRate / 100
   const r = realAnnualReturnRate / 100
   const gapYears = Math.max(0, statePensionAge - retirementAge)
   // Net expenses after state pension kicks in (floored at 0)
-  const netExpenses = Math.max(0, annualExpenses - annualStatePension)
+  const netExpenses = Math.max(0, grossedExpenses - annualStatePension)
 
   // No gap: state pension available from retirement day 1
   if (gapYears === 0) {
@@ -84,12 +92,12 @@ export function calculateAdjustedFireNumber(inputs: AdjustedFireInputs): number 
 
   if (r === 0) {
     // No real growth: bridge is a simple sum, phase 2 pot needs no discounting
-    return annualExpenses * gapYears + phase2Pot
+    return grossedExpenses * gapYears + phase2Pot
   }
 
   const growthFactor = Math.pow(1 + r, gapYears)
   // Present value of an annuity: fund full expenses across the gap years
-  const bridge = (annualExpenses * (1 - 1 / growthFactor)) / r
+  const bridge = (grossedExpenses * (1 - 1 / growthFactor)) / r
   // Discount phase 2 pot back to retirement date
   const phase2PotAtRetirement = phase2Pot / growthFactor
 

@@ -59,6 +59,8 @@ describe('calculateAdjustedFireNumber', () => {
     statePensionAge: 67,
     annualStatePension: 11_502.40, // £221.20/wk × 52
     realAnnualReturnRate: 5,
+    sippFraction: 0,
+    pensionTaxRate: 0,
   }
 
   describe('state pension disabled', () => {
@@ -146,6 +148,38 @@ describe('calculateAdjustedFireNumber', () => {
       expect(() =>
         calculateAdjustedFireNumber({ ...base, realAnnualReturnRate: -1 }),
       ).toThrow(RangeError)
+    })
+  })
+
+  describe('pension tax (pensionTaxRate > 0)', () => {
+    it('100% SIPP at 20% tax, no state pension → FIRE number = grossed / SWR', () => {
+      // grossedExpenses = 30_000 / (1 - 0.75×0.20) = 30_000 / 0.85
+      const grossed = 30_000 / 0.85
+      const expected = grossed / 0.04
+      expect(
+        calculateAdjustedFireNumber({
+          ...base,
+          includeStatePension: false,
+          sippFraction: 1.0,
+          pensionTaxRate: 20,
+        }),
+      ).toBeCloseTo(expected, 2)
+    })
+
+    it('100% SIPP at 20% tax with state pension gap — FIRE number is higher than no-tax equivalent', () => {
+      const noTax = calculateAdjustedFireNumber({
+        ...base,
+        includeStatePension: true,
+        sippFraction: 1.0,
+        pensionTaxRate: 0,
+      })
+      const withTax = calculateAdjustedFireNumber({
+        ...base,
+        includeStatePension: true,
+        sippFraction: 1.0,
+        pensionTaxRate: 20,
+      })
+      expect(withTax).toBeGreaterThan(noTax)
     })
   })
 })
