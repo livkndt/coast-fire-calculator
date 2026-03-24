@@ -95,7 +95,15 @@ export const useCalculatorStore = defineStore('calculator', () => {
   function _fireNumber(): number {
     if (!_inputsValid()) return 0
     const annualStatePension = weeklyToAnnual(inputs.value.statePensionWeeklyAmount)
-    const sippFraction = projectTerminalSippFraction(inputs.value)
+    const sippFraction = projectTerminalSippFraction({
+      currentAge: inputs.value.currentAge,
+      retirementAge: inputs.value.retirementAge,
+      currentSippValue: inputs.value.currentSippValue,
+      currentOtherInvestments: totalOther.value,
+      monthlyContributionSipp: inputs.value.monthlyContributionSipp,
+      monthlyContributionOther: totalMonthlyOther.value,
+      realAnnualReturnRate: inputs.value.realAnnualReturnRate,
+    })
     return calculateAdjustedFireNumber({
       annualExpenses: inputs.value.annualRetirementExpenses,
       safeWithdrawalRate: inputs.value.safeWithdrawalRate,
