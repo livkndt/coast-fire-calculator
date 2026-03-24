@@ -24,9 +24,13 @@ describe('useCalculatorStore — default inputs', () => {
   it('starts with zero investments and contributions', () => {
     const store = freshStore()
     expect(store.inputs.currentSippValue).toBe(0)
-    expect(store.inputs.currentOtherInvestments).toBe(0)
+    expect(store.inputs.currentIsaValue).toBe(0)
+    expect(store.inputs.currentGiaValue).toBe(0)
+    expect(store.inputs.currentCashValue).toBe(0)
     expect(store.inputs.monthlyContributionSipp).toBe(0)
-    expect(store.inputs.monthlyContributionOther).toBe(0)
+    expect(store.inputs.monthlyContributionIsa).toBe(0)
+    expect(store.inputs.monthlyContributionGia).toBe(0)
+    expect(store.inputs.monthlyContributionCash).toBe(0)
   })
 
   it('starts with sensible age defaults', () => {
@@ -44,11 +48,19 @@ describe('useCalculatorStore — computed results', () => {
     expect(store.results.coastFireNumber).toBe(0)
   })
 
-  it('currentTotal sums SIPP and other investments', () => {
+  it('currentTotal sums SIPP + ISA + GIA + cash', () => {
     const store = freshStore()
-    store.inputs.currentSippValue = 30_000
-    store.inputs.currentOtherInvestments = 20_000
-    expect(store.results.currentTotal).toBe(50_000)
+    store.inputs.currentSippValue = 10_000
+    store.inputs.currentIsaValue = 5_000
+    store.inputs.currentGiaValue = 3_000
+    store.inputs.currentCashValue = 2_000
+    expect(store.results.currentTotal).toBe(20_000)
+  })
+
+  it('setting only ISA contributes to currentTotal', () => {
+    const store = freshStore()
+    store.inputs.currentIsaValue = 15_000
+    expect(store.results.currentTotal).toBe(15_000)
   })
 
   it('fireNumber increases when expenses increase (reactive)', () => {
@@ -81,7 +93,9 @@ describe('useCalculatorStore — computed results', () => {
     const store = freshStore()
     store.inputs.annualRetirementExpenses = 50_000
     store.inputs.currentSippValue = 0
-    store.inputs.currentOtherInvestments = 0
+    store.inputs.currentIsaValue = 0
+    store.inputs.currentGiaValue = 0
+    store.inputs.currentCashValue = 0
     expect(store.results.hasCoasted).toBe(false)
     expect(store.results.amountToCoast).toBeGreaterThan(0)
   })
@@ -90,11 +104,25 @@ describe('useCalculatorStore — computed results', () => {
     const store = freshStore()
     store.inputs.annualRetirementExpenses = 1_000_000
     store.inputs.currentSippValue = 0
-    store.inputs.currentOtherInvestments = 0
+    store.inputs.currentIsaValue = 0
+    store.inputs.currentGiaValue = 0
+    store.inputs.currentCashValue = 0
     store.inputs.monthlyContributionSipp = 0
-    store.inputs.monthlyContributionOther = 0
+    store.inputs.monthlyContributionIsa = 0
+    store.inputs.monthlyContributionGia = 0
+    store.inputs.monthlyContributionCash = 0
     expect(store.results.projectedCoastAge).toBeNull()
     expect(store.results.projectedCoastYear).toBeNull()
+  })
+
+  it('monthly contributions from all three other types are summed into the projection', () => {
+    const store = freshStore()
+    store.inputs.annualRetirementExpenses = 30_000
+    store.inputs.monthlyContributionIsa = 200
+    store.inputs.monthlyContributionGia = 100
+    store.inputs.monthlyContributionCash = 50
+    const lastRow = store.rows[store.rows.length - 1]
+    expect(lastRow.otherValue).toBeGreaterThan(0)
   })
 
   it('projectedCoastAge is the current age when already coasted', () => {
