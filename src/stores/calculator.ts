@@ -14,9 +14,13 @@ const DEFAULT_INPUTS: CoastFireInputs = {
   statePensionAge: 67,
   statePensionWeeklyAmount: 221.20,
   currentSippValue: 0,
-  currentOtherInvestments: 0,
+  currentIsaValue: 0,
+  currentGiaValue: 0,
+  currentCashValue: 0,
   monthlyContributionSipp: 0,
-  monthlyContributionOther: 0,
+  monthlyContributionIsa: 0,
+  monthlyContributionGia: 0,
+  monthlyContributionCash: 0,
   annualRetirementExpenses: 0,
   realAnnualReturnRate: 5,
   safeWithdrawalRate: 4,
@@ -24,6 +28,14 @@ const DEFAULT_INPUTS: CoastFireInputs = {
 
 export const useCalculatorStore = defineStore('calculator', () => {
   const inputs = ref<CoastFireInputs>({ ...DEFAULT_INPUTS })
+
+  const totalOther = computed(() =>
+    inputs.value.currentIsaValue + inputs.value.currentGiaValue + inputs.value.currentCashValue
+  )
+
+  const totalMonthlyOther = computed(() =>
+    inputs.value.monthlyContributionIsa + inputs.value.monthlyContributionGia + inputs.value.monthlyContributionCash
+  )
 
   /** Year-by-year projection rows — empty if inputs are invalid. */
   const rows = computed<ProjectionRow[]>(() => {
@@ -33,9 +45,9 @@ export const useCalculatorStore = defineStore('calculator', () => {
       retirementAge: inputs.value.retirementAge,
       statePensionAge: inputs.value.statePensionAge,
       currentSippValue: inputs.value.currentSippValue,
-      currentOtherInvestments: inputs.value.currentOtherInvestments,
+      currentOtherInvestments: totalOther.value,
       monthlyContributionSipp: inputs.value.monthlyContributionSipp,
-      monthlyContributionOther: inputs.value.monthlyContributionOther,
+      monthlyContributionOther: totalMonthlyOther.value,
       realAnnualReturnRate: inputs.value.realAnnualReturnRate,
       coastFireNumber: _coastFireNumber(),
       currentYear: new Date().getFullYear(),
@@ -46,7 +58,7 @@ export const useCalculatorStore = defineStore('calculator', () => {
   const results = computed<CoastFireResult>(() => {
     const fireNumber = _fireNumber()
     const coastFireNumber = _coastFireNumber()
-    const currentTotal = inputs.value.currentSippValue + inputs.value.currentOtherInvestments
+    const currentTotal = inputs.value.currentSippValue + totalOther.value
     const coasted = hasCoasted(currentTotal, coastFireNumber)
     const amountToCoast = coastGap(currentTotal, coastFireNumber)
     const target = findCoastTarget(rows.value)

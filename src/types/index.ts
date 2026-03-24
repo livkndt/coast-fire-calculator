@@ -13,11 +13,16 @@ export interface CoastFireInputs {
 
   // Investments — split by accessibility
   currentSippValue: number          // Locked until age 57 (rising from 55 in 2028)
-  currentOtherInvestments: number   // ISAs, GIAs, savings — accessible anytime
+  // Accessible anytime — ISA, GIA, savings tracked separately
+  currentIsaValue: number
+  currentGiaValue: number
+  currentCashValue: number
 
   // Contributions (monthly, in today's money)
   monthlyContributionSipp: number
-  monthlyContributionOther: number
+  monthlyContributionIsa: number
+  monthlyContributionGia: number
+  monthlyContributionCash: number
 
   // Retirement spending & assumptions
   annualRetirementExpenses: number  // In today's money
