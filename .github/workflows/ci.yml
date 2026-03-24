@@ -35,6 +35,8 @@ jobs:
 
       - name: Lighthouse CI
         run: npm run lhci
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
       - name: Upload Lighthouse report
         if: always()
