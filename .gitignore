@@ -6,5 +6,4 @@ coverage/
 PLAN.md
 playwright-report/
 test-results/
-.lighthouseci/
 .claude/settings.local.json
