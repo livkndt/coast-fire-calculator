@@ -4,7 +4,11 @@
       Portfolio projection
     </h2>
 
-    <div class="chart-canvas">
+    <div
+      class="chart-canvas"
+      role="img"
+      :aria-label="`Portfolio projection chart from age ${minAge} to ${maxAge}`"
+    >
       <Line
         :data="chartData"
         :options="chartOptions"
@@ -78,6 +82,9 @@ const { rows, results } = storeToRefs(store)
 const chartData = computed(() =>
   buildChartData(rows.value, results.value.coastFireNumber, results.value.fireNumber),
 )
+
+const minAge = computed(() => rows.value[0]?.age ?? '')
+const maxAge = computed(() => rows.value[rows.value.length - 1]?.age ?? '')
 
 const chartOptions = computed(() => ({
   responsive: true,
