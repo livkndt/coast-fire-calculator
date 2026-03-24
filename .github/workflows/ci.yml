@@ -33,6 +33,17 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Lighthouse CI
+        run: npm run lhci
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 14
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 

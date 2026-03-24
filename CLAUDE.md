@@ -15,6 +15,14 @@
 - **TDD always**: write failing tests first (RED), then implement (GREEN). Never write implementation before tests exist.
 - Run tests after every implementation step. Do not move on if tests are red.
 
+## Build & performance
+
+- Vendor chunks: `vendor-chart` (Chart.js + vue-chartjs + @kurkle) and `vendor-framework` (Vue + Pinia + Router) — split so app-only deploys don't bust vendor cache
+- `sideEffects` in `package.json` is `["**/*.css", "**/*.vue"]`, **not** `false` — setting it to `false` silently drops all CSS from the dist (MiniCssExtractPlugin treats CSS as a side effect)
+- Performance budgets: `maxAssetSize 200KB`, `maxEntrypointSize 300KB` — sized for current vendor chunks; a breach fails `npm run build` and therefore CI
+- Lighthouse CI (`npm run lhci`) asserts only on category scores (`categories:performance >= 0.9`, etc.), not individual audits — individual audits are environment-sensitive on lhci's local static server
+- `npm run analyse` opens an interactive bundle treemap (webpack-bundle-analyzer)
+
 ## Project conventions
 
 - All monetary values in **real terms** (today's money) — never nominal
